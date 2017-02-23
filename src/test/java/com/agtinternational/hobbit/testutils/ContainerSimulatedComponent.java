@@ -1,5 +1,6 @@
 package com.agtinternational.hobbit.testutils;
 
+import com.agtinternational.hobbit.io.CommandSender;
 import org.hobbit.core.components.Component;
 
 import java.io.IOException;

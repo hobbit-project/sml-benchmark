@@ -1,4 +1,4 @@
-package com.agtinternational.hobbit.testutils;
+package com.agtinternational.hobbit.io;
 
 import com.rabbitmq.client.AMQP;
 import org.hobbit.core.Commands;

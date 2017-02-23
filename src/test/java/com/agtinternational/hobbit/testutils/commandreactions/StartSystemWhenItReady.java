@@ -1,6 +1,6 @@
 package com.agtinternational.hobbit.testutils.commandreactions;
 
-import com.agtinternational.hobbit.testutils.CommandSender;
+import com.agtinternational.hobbit.io.CommandSender;
 import org.hobbit.core.Commands;
 import org.junit.Assert;
 

@@ -1,4 +1,4 @@
-package com.agtinternational.hobbit;
+package com.agtinternational.hobbit.benchmark;
 
 import org.hobbit.core.Commands;
 import org.hobbit.core.Constants;
@@ -6,7 +6,7 @@ import org.hobbit.core.components.AbstractBenchmarkController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class AnomalyDetectionBenchmarkController extends AbstractBenchmarkController {
     private static final Logger logger = LoggerFactory.getLogger(AnomalyDetectionBenchmarkController.class);
+    public static final Charset CHARSET = Charset.forName("UTF-8");
 
     private final Collection<BenchmarkTask> tasks;
 
@@ -54,13 +55,10 @@ public class AnomalyDetectionBenchmarkController extends AbstractBenchmarkContro
             }
         }
         sendToCmdQueue(Commands.BENCHMARK_FINISHED_SIGNAL);
+        logger.debug("Finished.");
     }
 
     private void reportTaskError(BenchmarkTask task) {
-
-    }
-
-    private void startSystem() throws IOException {
-        sendToCmdQueue(Commands.TASK_GENERATION_FINISHED);
+        //todo impl sendResultModel
     }
 }

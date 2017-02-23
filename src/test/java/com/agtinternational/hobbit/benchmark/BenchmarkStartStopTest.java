@@ -1,4 +1,4 @@
-package com.agtinternational.hobbit;
+package com.agtinternational.hobbit.benchmark;
 
 import com.agtinternational.hobbit.testutils.CommandQueueListener;
 import com.agtinternational.hobbit.testutils.ComponentsExecutor;
@@ -6,16 +6,11 @@ import com.agtinternational.hobbit.testutils.ContainerSimulatedComponent;
 import com.agtinternational.hobbit.testutils.commandreactions.StartBenchmarkWhenSystemAndBenchmarkReady;
 import com.agtinternational.hobbit.testutils.commandreactions.StartSystemWhenItReady;
 import com.agtinternational.hobbit.testutils.commandreactions.TerminateWhenBenchmarkControllerFinished;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.hobbit.core.Commands;
-import org.hobbit.core.Constants;
 import org.hobbit.core.components.Component;
 import org.hobbit.core.rabbit.RabbitMQUtils;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.EnvironmentVariables;
 
 import java.nio.ByteBuffer;
 
@@ -25,9 +20,7 @@ import java.nio.ByteBuffer;
  *
  * @author Roman Katerinenko
  */
-public class BenchmarkStartStopTest {
-    @Rule
-    public final EnvironmentVariables environmentVariables = new EnvironmentVariables();
+public class BenchmarkStartStopTest extends EnvironmentVariables {
 
     @Test
     public void checkBenchmarkStartStopCorrectly() throws Exception {
@@ -47,7 +40,7 @@ public class BenchmarkStartStopTest {
         commandQueueListener.blockCurrentThreadUntilReady();
         AnomalyDetectionBenchmarkController benchmarkController = new AnomalyDetectionBenchmarkController();
         componentsExecutor.submit(benchmarkController);
-        Component system = new DummyBenchmarkedSystem();
+        Component system = new SystemComponent(new DummyProtocol());
         ContainerSimulatedComponent containerComponent = new ContainerSimulatedComponent(system, systemContainerId);
         componentsExecutor.submit(containerComponent);
         commandQueueListener.blockCurrentThreadUntilTerminate();
@@ -55,7 +48,7 @@ public class BenchmarkStartStopTest {
     }
 
     @Test
-    public void checkBbenchmarkControllerAndSystemStartStopCorrectly() throws Exception {
+    public void checkBenchmarkControllerAndSystemStartStopCorrectly() throws Exception {
         String rabbitHostName = "127.0.0.1";
         String experimentId = "exp1";
         String systemUri = "http://agt.com/systems#sys123332";
@@ -72,7 +65,7 @@ public class BenchmarkStartStopTest {
         commandQueueListener.blockCurrentThreadUntilReady();
         AnomalyDetectionBenchmarkController benchmarkController = new AnomalyDetectionBenchmarkController();
         componentsExecutor.submit(benchmarkController);
-        Component system = new SystemComponent();
+        Component system = new SystemComponent(new DummyProtocol());
         ContainerSimulatedComponent containerComponent = new ContainerSimulatedComponent(system, systemContainerId);
         componentsExecutor.submit(containerComponent);
         commandQueueListener.blockCurrentThreadUntilTerminate();
@@ -101,7 +94,7 @@ public class BenchmarkStartStopTest {
         componentsExecutor.submit(commandQueueListener);
         commandQueueListener.blockCurrentThreadUntilReady();
         setupSystemEnvironmentVariables();
-        SystemComponent system = new SystemComponent();
+        SystemComponent system = new SystemComponent(new DummyProtocol());
         ContainerSimulatedComponent containerComponent = new ContainerSimulatedComponent(system, systemUri);
         componentsExecutor.submit(containerComponent);
         commandQueueListener.blockCurrentThreadUntilTerminate();
@@ -117,20 +110,19 @@ public class BenchmarkStartStopTest {
         return false;
     }
 
-    private void setupBenchmarkEnvironmentVariables(String experimentId, String systemUri) {
-        Model emptyModel = ModelFactory.createDefaultModel();
-        environmentVariables.set(Constants.BENCHMARK_PARAMETERS_MODEL_KEY, RabbitMQUtils.writeModel2String(emptyModel));
-        environmentVariables.set(Constants.HOBBIT_EXPERIMENT_URI_KEY, "http://w3id.org/hobbit/experiments#" + experimentId);
-        environmentVariables.set(Constants.SYSTEM_URI_KEY, systemUri);
-    }
+    private static class DummyProtocol extends AbstractCommunicationProtocol {
+        public DummyProtocol() {
+            super(null);
+        }
 
-    private void setupSystemEnvironmentVariables() {
-        Model emptyModel = ModelFactory.createDefaultModel();
-        environmentVariables.set(Constants.SYSTEM_PARAMETERS_MODEL_KEY, RabbitMQUtils.writeModel2String(emptyModel));
-    }
+        @Override
+        public boolean init() {
+            return true;
+        }
 
-    private void setupCommunicationEnvironmentVariables(String rabbitHostName, String experimentId) {
-        environmentVariables.set(Constants.RABBIT_MQ_HOST_NAME_KEY, rabbitHostName);
-        environmentVariables.set(Constants.HOBBIT_SESSION_ID_KEY, experimentId);
+        @Override
+        public void execute() {
+
+        }
     }
 }
