@@ -20,19 +20,12 @@ public class CommunicationTest {
         Charset charset = Charset.forName("UTF-8");
         CountDownLatch messageDeliveredLatch = new CountDownLatch(1);
         Communication communication = new RabbitMqCommunication.Builder()
-                .name(queueName)
                 .host(host)
+                .name(queueName)
                 .charset(charset)
-                .consumer(new Communication.Consumer() {
-                    @Override
-                    public void handleDelivery(byte[] bytes) {
-                        actualMessage = new String(bytes, charset);
-                        messageDeliveredLatch.countDown();
-                    }
-
-                    @Override
-                    public void onDelete() {
-                    }
+                .consumer(bytes -> {
+                    actualMessage = new String(bytes, charset);
+                    messageDeliveredLatch.countDown();
                 })
                 .build();
         String expectedMessage = "testMessage";

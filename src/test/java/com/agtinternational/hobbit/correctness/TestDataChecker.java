@@ -25,31 +25,15 @@ class TestDataChecker implements DataChecker {
     private final CountDownLatch inputClosedBarrier = new CountDownLatch(1);
 
     TestDataChecker() {
-        inputConsumer = new Communication.Consumer() {
-            @Override
-            public void handleDelivery(byte[] bytes) {
-                String actual = new String(bytes, AnomalyDetectionBenchmarkController.CHARSET);
-                addActualString(actual);
-                checkSameStrings();
-            }
-
-            @Override
-            public void onDelete() {
-                finalCheck();
-                inputClosedBarrier.countDown();
-            }
+        inputConsumer = bytes -> {
+            String actual = new String(bytes, AnomalyDetectionBenchmarkController.CHARSET);
+            addActualString(actual);
+            checkSameStrings();
         };
-        goldStandardConsumer = new Communication.Consumer() {
-            @Override
-            public void handleDelivery(byte[] bytes) {
-                String string = new String(bytes, AnomalyDetectionBenchmarkController.CHARSET);
-                addGoldStandardString(string);
-                checkSameStrings();
-            }
-
-            @Override
-            public void onDelete() {
-            }
+        goldStandardConsumer = bytes -> {
+            String string = new String(bytes, AnomalyDetectionBenchmarkController.CHARSET);
+            addGoldStandardString(string);
+            checkSameStrings();
         };
 
     }
@@ -85,6 +69,7 @@ class TestDataChecker implements DataChecker {
     public void run() {
         try {
             inputClosedBarrier.await();
+            finalCheck();
         } catch (Exception e) {
             logger.error("Exception", e);
         }

@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 class TestDataGenerator extends DataGenerator {
     private static final Logger logger = LoggerFactory.getLogger(TestDataGenerator.class);
 
-    private int sendDataLength;
     private String lastSentMessage;
 
     private TestDataGenerator(TestDataGenerator.Builder builder) {
@@ -19,17 +18,13 @@ class TestDataGenerator extends DataGenerator {
 
     @Override
     public void run() throws Exception {
-        int count = 10;
-        while (count-- > 0) {
-            lastSentMessage = "Test str";
+        int count = 1;
+        while (count <= 10) {
+            lastSentMessage = "Test str "+count;
             logger.debug("Sending message to {}", getOutputCommunication().getName());
             getOutputCommunication().send(lastSentMessage);
-            sendDataLength += lastSentMessage.length();
+            count++;
         }
-    }
-
-    int getSendDataLength() {
-        return sendDataLength;
     }
 
     public static class Builder extends DataGenerator.Builder {

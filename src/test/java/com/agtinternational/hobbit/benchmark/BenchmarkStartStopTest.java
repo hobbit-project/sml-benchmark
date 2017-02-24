@@ -116,13 +116,8 @@ public class BenchmarkStartStopTest extends EnvironmentVariables {
         }
 
         @Override
-        public boolean init() {
-            return true;
-        }
-
-        @Override
         public void execute() {
-
+            // do nothing
         }
     }
 }

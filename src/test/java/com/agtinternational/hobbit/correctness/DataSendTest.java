@@ -3,7 +3,6 @@ package com.agtinternational.hobbit.correctness;
 import com.agtinternational.hobbit.benchmark.AbstractCommunicationProtocol;
 import com.agtinternational.hobbit.benchmark.AnomalyDetectionBenchmarkController;
 import com.agtinternational.hobbit.benchmark.BenchmarkTaskImpl;
-import com.agtinternational.hobbit.benchmark.Communication;
 import com.agtinternational.hobbit.benchmark.DataChecker;
 import com.agtinternational.hobbit.benchmark.EnvironmentVariables;
 import com.agtinternational.hobbit.benchmark.SystemComponent;
@@ -57,18 +56,16 @@ public class DataSendTest extends EnvironmentVariables {
 
 
     private AbstractCommunicationProtocol newBenchmarkSideProtocol() {
-        Communication.Builder communicationBuilder = new RabbitMqCommunication.Builder();
+        RabbitMqCommunication.Builder communicationBuilder = new RabbitMqCommunication.Builder();
         DataChecker dataChecker = new TestDataChecker();
         TestDataGenerator.Builder dataGeneratorBuilder = new TestDataGenerator.Builder();
         CorrectnessCheckProtocol correctnessCheckProtocol = new CorrectnessCheckProtocol(dataGeneratorBuilder, dataChecker, communicationBuilder);
-        correctnessCheckProtocol.setWaitingNanos(1000);
         return correctnessCheckProtocol;
     }
 
     private AbstractCommunicationProtocol newSystemSideProtocol() {
-        Communication.Builder communicationBuilder = new RabbitMqCommunication.Builder();
+        RabbitMqCommunication.Builder communicationBuilder = new RabbitMqCommunication.Builder();
         DummyRepeater dummyRepeater = new DummyRepeater(communicationBuilder);
-        dummyRepeater.setWaitingNanos(1000);
         return dummyRepeater;
     }
 }

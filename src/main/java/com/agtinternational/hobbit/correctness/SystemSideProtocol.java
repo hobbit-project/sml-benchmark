@@ -1,124 +1,91 @@
 package com.agtinternational.hobbit.correctness;
 
 import com.agtinternational.hobbit.Utils;
-import com.agtinternational.hobbit.benchmark.AbstractCommunicationProtocol;
 import com.agtinternational.hobbit.benchmark.AnomalyDetectionBenchmarkController;
 import com.agtinternational.hobbit.benchmark.Communication;
+import com.agtinternational.hobbit.benchmark.TerminationMessageProtocol;
+import com.agtinternational.hobbit.io.NetworkCommunication;
 import org.hobbit.core.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
+import java.nio.charset.Charset;
 
 /**
  * @author Roman Katerinenko
  */
-public abstract class SystemSideProtocol extends AbstractCommunicationProtocol {
+public abstract class SystemSideProtocol extends TerminationMessageProtocol {
     private static final Logger logger = LoggerFactory.getLogger(SystemSideProtocol.class);
 
-    private final CountDownLatch inputCommunicationClosedBarrier = new CountDownLatch(1);
 
-    private boolean outputCommunicationDeleted = false;
-    private Communication inputCommunication;
-    private Communication outputCommunication;
-    private int waitingNanos;
-
-
-    public SystemSideProtocol(Communication.Builder communicationBuilder) {
-        super(communicationBuilder);
-    }
-
-    public void setWaitingNanos(int waitingNanos) {
-        this.waitingNanos = waitingNanos;
-    }
-
-    protected Communication getInputCommunication() {
-        return inputCommunication;
-    }
-
-    protected Communication getOutputCommunication() {
-        return outputCommunication;
+    public SystemSideProtocol(NetworkCommunication.Builder communicationBuilder) {
+        super(communicationBuilder, AnomalyDetectionBenchmarkController.TERMINATION_MESSAGE);
     }
 
     @Override
-    public boolean init() {
-        logger.debug("Opening communication...");
+    public void executeProtocol() {
         try {
-            String host = System.getenv().get(Constants.RABBIT_MQ_HOST_NAME_KEY);
-            inputCommunication = getCommunicationBuilder()
-                    .charset(AnomalyDetectionBenchmarkController.CHARSET)
-                    .host(host)
-                    .name(Utils.toPlatformQueueName(Constants.DATA_GEN_2_SYSTEM_QUEUE_NAME))
-                    .prefetchCount(1)
-                    .consumer(new Communication.Consumer() {
-                        @Override
-                        public void handleDelivery(byte[] bytes) {
-                            SystemSideProtocol.this.handleDelivery(bytes);
-                        }
-
-                        @Override
-                        public void onDelete() {
-                            SystemSideProtocol.this.onDelete();
-                        }
-                    })
-                    .build();
-            logger.debug("Listening on queue {}", inputCommunication.getName());
-            outputCommunication = getCommunicationBuilder()
-                    .charset(AnomalyDetectionBenchmarkController.CHARSET)
-                    .host(host)
-                    .name(Utils.toPlatformQueueName(Constants.SYSTEM_2_EVAL_STORAGE_QUEUE_NAME))
-                    .prefetchCount(1)
-                    .build();
-            logger.debug("Writing to queue {}", outputCommunication.getName());
-            return true;
+            logger.debug("Waiting for termination message...");
+            waitForTerminationMessage();
+            logger.debug("Waiting for finishing processing...");
+            waitForFinishingProcessing();
+            logger.debug("Sending termination message...");
+            sendTerminationMessage();
         } catch (Exception e) {
             logger.error("Exception", e);
-            return false;
+            setErrorMessage("Errors while executing the task");
+            setSuccessful(false);
         }
+        logger.debug("Finished.");
+    }
+
+
+    protected abstract void waitForFinishingProcessing() throws InterruptedException;
+
+    @Override
+    protected Communication.Consumer getInputConsumer() {
+        return SystemSideProtocol.this::handleDelivery;
+    }
+
+    @Override
+    protected String getInputHost() {
+        return System.getenv().get(Constants.RABBIT_MQ_HOST_NAME_KEY);
+    }
+
+    @Override
+    protected String getInputCommunicationName() {
+        return Utils.toPlatformQueueName(Constants.DATA_GEN_2_SYSTEM_QUEUE_NAME);
+    }
+
+    @Override
+    protected Charset getCharset() {
+        return AnomalyDetectionBenchmarkController.CHARSET;
+    }
+
+    @Override
+    protected int getInputPrefetchCount() {
+        return 1;
+    }
+
+    @Override
+    protected String getOutputCommunicationName() {
+        return Utils.toPlatformQueueName(Constants.SYSTEM_2_EVAL_STORAGE_QUEUE_NAME);
+    }
+
+    @Override
+    protected Communication.Consumer getOutputConsumer() {
+        return null;
+    }
+
+    @Override
+    protected String getOutputHost() {
+        return getInputHost();
+    }
+
+    @Override
+    protected int getOutputPrefetchCount() {
+        return 1;
     }
 
     protected abstract void handleDelivery(byte[] bytes);
-
-    private void onDelete() {
-        inputCommunicationClosedBarrier.countDown();
-    }
-
-    @Override
-    public void execute() {
-        try {
-            logger.debug("Waiting for input communication closed...");
-            waitForInputCommunicationClosed();
-            logger.debug("Waiting until all sent data is received...");
-            waitUntilAllSentDataReceived();
-            logger.debug("Deleting communication");
-            deleteOutputCommunication();
-        } catch (Exception e) {
-            logger.error("Exception", e);
-        } finally {
-            deleteOutputCommunication();
-        }
-    }
-
-    private void waitForInputCommunicationClosed() throws InterruptedException {
-        inputCommunicationClosedBarrier.await();
-    }
-
-    private void waitUntilAllSentDataReceived() throws IOException, InterruptedException {
-        while (inputCommunication.getMessageCount() > 0) {
-            Thread.sleep(waitingNanos);
-        }
-    }
-
-    private void deleteOutputCommunication() {
-        if (outputCommunicationDeleted) {
-            return;
-        }
-        outputCommunicationDeleted = true;
-        try {
-            outputCommunication.delete();
-        } catch (Exception e) {
-            logger.debug("Exception while closing communication", e);
-        }
-    }
 }

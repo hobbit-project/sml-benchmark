@@ -1,6 +1,5 @@
 package com.agtinternational.hobbit.io;
 
-import com.agtinternational.hobbit.benchmark.Communication;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -16,7 +15,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * @author Roman Katerinenko
  */
-public class RabbitMqCommunication extends Communication {
+public class RabbitMqCommunication extends NetworkCommunication {
     private final RabbitQueue queue;
 
     private RabbitMqCommunication(Builder builder) {
@@ -33,14 +32,9 @@ public class RabbitMqCommunication extends Communication {
     }
 
     @Override
-    public void delete() throws Exception {
-        queue.getChannel().queueDelete(getName());
-        close();
-    }
-
-    @Override
     public void send(byte[] bytes) throws IOException {
-        queue.getChannel().basicPublish("", getName(), MessageProperties.PERSISTENT_BASIC, bytes);
+        Channel channel = queue.getChannel();
+        channel.basicPublish("", getName(), MessageProperties.PERSISTENT_BASIC, bytes);
     }
 
     @Override
@@ -48,15 +42,10 @@ public class RabbitMqCommunication extends Communication {
         send(string.getBytes(getCharset()));
     }
 
-    @Override
-    public long getMessageCount() {
-        return queue.messageCount();
-    }
-
-    public static class Builder extends Communication.Builder {
+    public static class Builder extends NetworkCommunication.Builder {
         private RabbitQueue queue;
 
-        public RabbitMqCommunication build() throws IOException, TimeoutException {
+        public RabbitMqCommunication build() throws Exception {
             if (getName() == null) {
                 throw new IllegalStateException("queue name mustn't be null");
             }
@@ -82,22 +71,19 @@ public class RabbitMqCommunication extends Communication {
         }
 
         private void registerConsumer() throws IOException {
-            Channel channel = queue.getChannel();
-            channel.basicConsume(getName(), false, new DefaultConsumer(channel) {
-                @Override
-                public void handleDelivery(String consumerTag,
-                                           Envelope envelope,
-                                           AMQP.BasicProperties properties,
-                                           byte[] body) throws IOException {
-                    getConsumer().handleDelivery(body);
-                    getChannel().basicAck(envelope.getDeliveryTag(), false);
-                }
-
-                @Override
-                public void handleCancel(String consumerTag) throws IOException {
-                    getConsumer().onDelete();
-                }
-            });
+            if (getConsumer() != null) {
+                Channel channel = queue.getChannel();
+                channel.basicConsume(getName(), false, new DefaultConsumer(channel) {
+                    @Override
+                    public void handleDelivery(String consumerTag,
+                                               Envelope envelope,
+                                               AMQP.BasicProperties properties,
+                                               byte[] body) throws IOException {
+                        getConsumer().handleDelivery(body);
+                        getChannel().basicAck(envelope.getDeliveryTag(), false);
+                    }
+                });
+            }
         }
     }
 }

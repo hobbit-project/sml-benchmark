@@ -1,23 +1,12 @@
 package com.agtinternational.hobbit.io;
 
-import com.agtinternational.hobbit.benchmark.Communication;
-
 /**
  * @author Roman Katerinenko
  */
-public class InMemoryCommunication extends Communication {
+public final class InMemoryCommunication extends MinimalCommunication {
 
-    public InMemoryCommunication(Builder builder) {
+    private InMemoryCommunication(Builder builder) {
         super(builder);
-    }
-
-    @Override
-    public void delete() throws Exception {
-        getConsumer().onDelete();
-    }
-
-    @Override
-    public void close() throws Exception {
     }
 
     @Override
@@ -31,7 +20,14 @@ public class InMemoryCommunication extends Communication {
     }
 
     @Override
-    public long getMessageCount() {
-        return 0;
+    public void close() throws Exception {
+        // do nothing
+    }
+
+    public final static class Builder extends MinimalCommunication.Builder{
+        @Override
+        public MinimalCommunication build() throws Exception {
+            return new InMemoryCommunication(this);
+        }
     }
 }

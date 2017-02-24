@@ -5,25 +5,14 @@ import com.agtinternational.hobbit.benchmark.Communication;
 /**
  * @author Roman Katerinenko
  */
-public class Repeater extends Communication {
+public class Repeater extends MinimalCommunication {
     private final Communication outputCommunication1;
     private final Communication outputCommunication2;
 
-    public Repeater(Communication outputCommunication1, Communication outputCommunication2) {
-        super(new Communication.Builder());
-        this.outputCommunication1 = outputCommunication1;
-        this.outputCommunication2 = outputCommunication2;
-    }
-
-    @Override
-    public String getName() {
-        return "Repeater";
-    }
-
-    @Override
-    public void delete() throws Exception {
-        outputCommunication1.delete();
-        outputCommunication2.delete();
+    private Repeater(Builder builder) {
+        super(builder);
+        this.outputCommunication1 = builder.outputCommunication1;
+        this.outputCommunication2 = builder.outputCommunication2;
     }
 
     @Override
@@ -31,6 +20,7 @@ public class Repeater extends Communication {
         outputCommunication1.close();
         outputCommunication2.close();
     }
+
 
     @Override
     public void send(byte[] bytes) throws Exception {
@@ -43,8 +33,23 @@ public class Repeater extends Communication {
         send(string.getBytes(getCharset()));
     }
 
-    @Override
-    public long getMessageCount() {
-        return outputCommunication1.getMessageCount() + outputCommunication2.getMessageCount();
+    public final static class Builder extends MinimalCommunication.Builder {
+        private Communication outputCommunication1;
+        private Communication outputCommunication2;
+
+        public Repeater.Builder outputCommunication1(Communication communication) {
+            this.outputCommunication1 = communication;
+            return this;
+        }
+
+        public Repeater.Builder outputCommunication2(Communication communication) {
+            this.outputCommunication2 = communication;
+            return this;
+        }
+
+        @Override
+        public Repeater build() {
+            return new Repeater(this);
+        }
     }
 }

@@ -33,11 +33,6 @@ public class SystemComponent extends AbstractCommandReceivingComponent {
 
     @Override
     public void run() throws Exception {
-        logger.debug("Started.Initializing communication protocol...");
-        if (!communicationProtocol.init()) {
-            logger.debug("Communication protocol wasn't initialized. Abort.");
-            return;
-        }
         logger.debug("Sending SYSTEM_READY_SIGNAL...");
         sendToCmdQueue(Commands.SYSTEM_READY_SIGNAL);
         logger.debug("Waiting for TASK_GENERATION_FINISHED...");

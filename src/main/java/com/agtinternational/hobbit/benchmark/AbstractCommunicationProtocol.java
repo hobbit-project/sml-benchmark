@@ -1,23 +1,23 @@
 package com.agtinternational.hobbit.benchmark;
 
+import com.agtinternational.hobbit.io.NetworkCommunication;
+
 /**
  * @author Roman Katerinenko
  */
 public abstract class AbstractCommunicationProtocol {
-    private final Communication.Builder communicationBuilder;
+    private final NetworkCommunication.Builder communicationBuilder;
 
     private String errorMessage;
     private boolean isSuccessful;
 
-    protected AbstractCommunicationProtocol(Communication.Builder communicationBuilder) {
+    protected AbstractCommunicationProtocol(NetworkCommunication.Builder communicationBuilder) {
         this.communicationBuilder = communicationBuilder;
     }
 
-    public abstract boolean init();
-
     public abstract void execute();
 
-    protected Communication.Builder getCommunicationBuilder() {
+    protected NetworkCommunication.Builder getCommunicationBuilder() {
         return communicationBuilder;
     }
 

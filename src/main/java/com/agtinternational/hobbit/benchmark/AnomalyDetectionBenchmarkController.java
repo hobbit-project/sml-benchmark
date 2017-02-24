@@ -17,7 +17,9 @@ import java.util.Map;
  */
 public class AnomalyDetectionBenchmarkController extends AbstractBenchmarkController {
     private static final Logger logger = LoggerFactory.getLogger(AnomalyDetectionBenchmarkController.class);
+
     public static final Charset CHARSET = Charset.forName("UTF-8");
+    public static final String TERMINATION_MESSAGE = "~~Termination Message~~";
 
     private final Collection<BenchmarkTask> tasks;
 
