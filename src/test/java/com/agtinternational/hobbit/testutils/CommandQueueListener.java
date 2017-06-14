@@ -38,7 +38,7 @@ public class CommandQueueListener extends AbstractCommandReceivingComponent {
         logger.debug("Terminated");
     }
 
-    public void blockCurrentThreadUntilReady() throws InterruptedException {
+    public void waitForInitialisation() throws InterruptedException {
         countDownLatch.await();
     }
 
@@ -48,7 +48,7 @@ public class CommandQueueListener extends AbstractCommandReceivingComponent {
         logger.debug("Terminated");
     }
 
-    public void blockCurrentThreadUntilTerminate() throws InterruptedException {
+    public void waitForTermination() throws InterruptedException {
         blockingSemaphore.acquire();
     }
 

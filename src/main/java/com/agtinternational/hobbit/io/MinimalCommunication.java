@@ -1,6 +1,6 @@
 package com.agtinternational.hobbit.io;
 
-import com.agtinternational.hobbit.benchmark.Communication;
+import com.agtinternational.hobbit.core.Communication;
 
 import java.nio.charset.Charset;
 

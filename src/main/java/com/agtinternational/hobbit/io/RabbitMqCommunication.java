@@ -79,8 +79,8 @@ public class RabbitMqCommunication extends NetworkCommunication {
                                                Envelope envelope,
                                                AMQP.BasicProperties properties,
                                                byte[] body) throws IOException {
-                        getConsumer().handleDelivery(body);
                         getChannel().basicAck(envelope.getDeliveryTag(), false);
+                        getConsumer().handleDelivery(body);
                     }
                 });
             }

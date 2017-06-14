@@ -10,6 +10,6 @@ public class Utils {
     }
 
     public static String toPlatformQueueName(String queueName) {
-        return queueName+ "." + System.getenv().get(Constants.HOBBIT_SESSION_ID_KEY);
+        return queueName + "." + System.getenv().get(Constants.HOBBIT_SESSION_ID_KEY);
     }
 }

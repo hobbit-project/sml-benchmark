@@ -24,7 +24,7 @@ public final class InMemoryCommunication extends MinimalCommunication {
         // do nothing
     }
 
-    public final static class Builder extends MinimalCommunication.Builder{
+    public final static class Builder extends MinimalCommunication.Builder {
         @Override
         public MinimalCommunication build() throws Exception {
             return new InMemoryCommunication(this);

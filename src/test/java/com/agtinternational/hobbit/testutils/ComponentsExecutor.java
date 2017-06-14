@@ -23,6 +23,10 @@ public class ComponentsExecutor {
     private final ExecutorService executor = new ThreadPoolExecutor(0, CORE_POOL_SIZE, 60L, TimeUnit.SECONDS,
             new SynchronousQueue<>());
 
+    public void submit(Runnable runnable) {
+        executor.submit(runnable);
+    }
+
     public void submit(Component component) {
         executor.submit(() -> {
             try {

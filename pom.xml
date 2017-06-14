@@ -34,6 +34,25 @@
 
     <dependencies>
         <dependency>
+            <groupId>localLibs</groupId>
+            <artifactId>localLibs-wm-datagen</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/original-wm-data-gen-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>apache-jena-libs</artifactId>
+            <type>pom</type>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-client</artifactId>
+            <version>8.3.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.hobbit</groupId>
             <artifactId>core</artifactId>
             <version>0.0.1-SNAPSHOT</version>

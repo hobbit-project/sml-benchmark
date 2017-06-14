@@ -8,8 +8,9 @@ intelliintelliintelli# Created by .ignore support plugin (hsz.mobi)
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+.target/*
+
 # Package Files #
-*.jar
 *.war
 *.ear
 
