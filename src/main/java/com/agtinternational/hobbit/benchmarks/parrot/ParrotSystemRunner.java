@@ -1,6 +1,6 @@
 package com.agtinternational.hobbit.benchmarks.parrot;
 
-import com.agtinternational.hobbit.common.SystemComponent;
+import com.agtinternational.hobbit.sdk.BasicSystemComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ public class ParrotSystemRunner {
 
     public void run() throws Exception {
         logger.debug("Creating system component...");
-        SystemComponent systemComponent = new ParrotSystemComponent();
+        BasicSystemComponent systemComponent = new ParrotSystemComponent();
         logger.debug("Initializing system component...");
         systemComponent.init();
         logger.debug("Running system component...");

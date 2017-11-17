@@ -1,7 +1,8 @@
 package com.agtinternational.hobbit.benchmarks.sml;
 
-import com.agtinternational.hobbit.common.JenaKeyValue;
-import com.agtinternational.hobbit.common.SystemComponent;
+
+import com.agtinternational.hobbit.sdk.BasicSystemComponent;
+import com.agtinternational.hobbit.sdk.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ public class SMLCsvSystemNegativeRunner {
         String encodedModel = System.getenv().get(SYSTEM_PARAMETERS_MODEL_KEY);
         logger.debug("Params:{}", encodedModel);
         JenaKeyValue params = new JenaKeyValue.Builder().buildFrom(encodedModel);
-        SystemComponent sc = new SMLCsvSystemNegative(params);
+        BasicSystemComponent sc = new SMLCsvSystemNegative(params);
         logger.debug("Initializing system component...");
         sc.init();
         logger.debug("Running system component...");

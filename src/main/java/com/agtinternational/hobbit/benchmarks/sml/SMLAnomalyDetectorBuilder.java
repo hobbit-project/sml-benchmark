@@ -1,7 +1,7 @@
 package com.agtinternational.hobbit.benchmarks.sml;
 
 import com.agt.ferromatikdata.formatting.RdfAnomalyFormatter;
-import com.agtinternational.hobbit.common.KeyValue;
+import com.agtinternational.hobbit.sdk.KeyValue;
 
 import java.nio.charset.Charset;
 import java.time.Instant;

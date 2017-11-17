@@ -1,6 +1,6 @@
 package com.agtinternational.hobbit.benchmarks.parrot;
 
-import com.agtinternational.hobbit.common.SystemComponent;
+import com.agtinternational.hobbit.sdk.BasicSystemComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class ParrotNegativeSystemRunner {
 
     public void run() throws Exception {
         logger.debug("Creating negative system component...");
-        SystemComponent systemComponent = new ParrotNegativeSystemComponent();
+        BasicSystemComponent systemComponent = new ParrotNegativeSystemComponent();
         logger.debug("Initializing negative system component...");
         systemComponent.init();
         logger.debug("Running negative system component...");

@@ -1,16 +1,14 @@
 package com.agtinternational.hobbit.benchmarks.parrot;
 
-import com.agtinternational.hobbit.common.correctnesscheck.ComparablesMatcher;
-import com.agtinternational.hobbit.common.JenaKeyValue;
-import com.agtinternational.hobbit.common.KeyValue;
-import com.agtinternational.hobbit.common.TaskBasedBenchmarkController;
-import com.agtinternational.hobbit.common.io.RabbitMqCommunication;
+import com.agtinternational.hobbit.benchmarks.parrot.io.InMemoryCommunication;
+import com.agtinternational.hobbit.benchmarks.parrot.io.Repeater;
 import com.agtinternational.hobbit.common.BenchmarkTask;
-import com.agtinternational.hobbit.common.Communication;
-import com.agtinternational.hobbit.common.correctnesscheck.DataCheckerImpl;
-import com.agtinternational.hobbit.common.correctnesscheck.CorrectnessBenchmarkProtocol;
-import com.agtinternational.hobbit.common.io.InMemoryCommunication;
-import com.agtinternational.hobbit.common.io.Repeater;
+import com.agtinternational.hobbit.sdk.JenaKeyValue;
+import com.agtinternational.hobbit.sdk.KeyValue;
+import com.agtinternational.hobbit.common.TaskBasedBenchmarkController;
+import com.agtinternational.hobbit.common.correctnesscheck.*;
+import com.agtinternational.hobbit.sdk.io.Communication;
+import com.agtinternational.hobbit.sdk.io.RabbitMqCommunication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

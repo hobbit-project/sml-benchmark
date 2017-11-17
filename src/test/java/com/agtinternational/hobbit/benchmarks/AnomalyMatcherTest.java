@@ -2,7 +2,7 @@ package com.agtinternational.hobbit.benchmarks;
 
 import com.agtinternational.hobbit.benchmarks.sml.InstantAndText;
 import com.agtinternational.hobbit.benchmarks.sml.SMLDataChecker;
-import com.agtinternational.hobbit.common.KeyValue;
+import com.agtinternational.hobbit.sdk.*;
 import org.junit.Test;
 
 import java.time.Duration;

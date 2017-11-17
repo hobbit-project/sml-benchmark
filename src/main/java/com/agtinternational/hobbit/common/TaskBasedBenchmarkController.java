@@ -1,6 +1,7 @@
 package com.agtinternational.hobbit.common;
 
-import com.agtinternational.hobbit.benchmarks.sml.SMLConstants;
+import com.agtinternational.hobbit.common.BenchmarkTask;
+import com.agtinternational.hobbit.sdk.*;
 import org.hobbit.core.Commands;
 import org.hobbit.core.Constants;
 import org.hobbit.core.components.AbstractBenchmarkController;
@@ -50,7 +51,7 @@ public class TaskBasedBenchmarkController extends AbstractBenchmarkController {
         logger.debug("Initializing...");
         super.init();
         Map<String, String> environment = System.getenv();
-        if (!environment.containsKey(Constants.SYSTEM_URI_KEY)) {
+        if (!environment.containsKey(Constants.SYSTEM_URI_KEY)){
             throw new IllegalStateException("System URI must not be null");
         }
         String hobbitSessionId = getHobbitSessionId();
@@ -63,7 +64,7 @@ public class TaskBasedBenchmarkController extends AbstractBenchmarkController {
 
     @Override
     protected void executeBenchmark() throws Exception {
-        logger.debug("Start executing...");
+        logger.debug("Start executing benchmark controller...");
         resultKeyValue = new JenaKeyValue(experimentUri);
         taskFinishedBarrier = new CountDownLatch(1);
         if (!tasks.isEmpty()) {
@@ -75,7 +76,7 @@ public class TaskBasedBenchmarkController extends AbstractBenchmarkController {
             resultKeyValue.setValue(SMLConstants.TERMINATION_TYPE_OUTPUT_NAME, SMLConstants.TERMINATION_TYPE_NORMAL);
         }
         sendResult();
-        logger.debug("Stopping executor...");
+        logger.debug("Stopping benchmark controller...");
         stopExecutor();
         logger.debug("Finished.");
     }
@@ -115,7 +116,7 @@ public class TaskBasedBenchmarkController extends AbstractBenchmarkController {
             try {
                 task.run();
             } catch (Throwable e) {
-                logger.error("Task {} threw an exception ", task.toString());
+                logger.error("Task {} threw an exception: {}", task.toString(), e.getMessage());
                 logger.error("", e);
             }
             taskFinishedBarrier.countDown();

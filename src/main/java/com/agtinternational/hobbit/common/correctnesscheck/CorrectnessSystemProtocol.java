@@ -1,10 +1,10 @@
 package com.agtinternational.hobbit.common.correctnesscheck;
 
-import com.agtinternational.hobbit.common.Utils;
 import com.agtinternational.hobbit.common.TaskBasedBenchmarkController;
 import com.agtinternational.hobbit.common.TerminationMessageProtocol;
-import com.agtinternational.hobbit.common.Communication;
-import com.agtinternational.hobbit.common.io.NetworkCommunication;
+import com.agtinternational.hobbit.common.Utils;
+import com.agtinternational.hobbit.sdk.io.Communication;
+import com.agtinternational.hobbit.sdk.io.NetworkCommunication;
 import org.hobbit.core.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

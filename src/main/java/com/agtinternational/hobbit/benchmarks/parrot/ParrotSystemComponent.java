@@ -1,19 +1,20 @@
 package com.agtinternational.hobbit.benchmarks.parrot;
 
-import com.agtinternational.hobbit.common.AbstractCommunicationProtocol;
-import com.agtinternational.hobbit.common.SystemComponent;
-import com.agtinternational.hobbit.common.io.RabbitMqCommunication;
+
+import com.agtinternational.hobbit.sdk.BasicSystemComponent;
+import com.agtinternational.hobbit.sdk.io.AbstractCommunicationProtocol;
+import com.agtinternational.hobbit.sdk.io.RabbitMqCommunication;
 
 /**
  * @author Roman Katerinenko
  */
-public class ParrotSystemComponent extends SystemComponent {
+public class ParrotSystemComponent extends BasicSystemComponent {
     public ParrotSystemComponent() {
         super(newSystemCommunicationProtocol());
     }
 
     private static AbstractCommunicationProtocol newSystemCommunicationProtocol() {
         RabbitMqCommunication.Builder communicationBuilder = new RabbitMqCommunication.Builder();
-        return new RepeatProtocol(communicationBuilder);
+        return new ParrotSystemProtocol(communicationBuilder);
     }
 }

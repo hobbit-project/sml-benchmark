@@ -2,9 +2,9 @@ package com.agtinternational.hobbit.benchmarks.sml;
 
 import com.agt.ferromatikdata.anomalydetector.ClusterRandomizer;
 import com.agt.ferromatikdata.core.Machines;
-import com.agtinternational.hobbit.common.KeyValue;
+import com.agtinternational.hobbit.sdk.*;
 
-import static com.agtinternational.hobbit.benchmarks.sml.SMLConstants.MACHINE_COUNT_INPUT_NAME;
+import static com.agtinternational.hobbit.common.SMLConstants.MACHINE_COUNT_INPUT_NAME;
 
 /**
  * @author Roman Katerinenko

@@ -6,14 +6,14 @@ import com.agt.ferromatikdata.anomalydetector.Metadata;
 import com.agt.ferromatikdata.anomalydetector.MetadataProducer;
 import com.agt.ferromatikdata.clustering.DebsClusteringFactory;
 import com.agt.ferromatikdata.core.Machines;
-import com.agtinternational.hobbit.common.KeyValue;
+import com.agtinternational.hobbit.sdk.*;
 
 import java.io.IOException;
 
-import static com.agtinternational.hobbit.benchmarks.sml.SMLConstants.MAX_CLUSTER_ITERATIONS_INPUT_NAME;
-import static com.agtinternational.hobbit.benchmarks.sml.SMLConstants.PROBABILITY_THRESHOLD_INPUT_NAME;
-import static com.agtinternational.hobbit.benchmarks.sml.SMLConstants.TRANSITIONS_COUNT_INPUT_NAME;
-import static com.agtinternational.hobbit.benchmarks.sml.SMLConstants.WINDOW_SIZE_INPUT_NAME;
+import static com.agtinternational.hobbit.common.SMLConstants.MAX_CLUSTER_ITERATIONS_INPUT_NAME;
+import static com.agtinternational.hobbit.common.SMLConstants.PROBABILITY_THRESHOLD_INPUT_NAME;
+import static com.agtinternational.hobbit.common.SMLConstants.TRANSITIONS_COUNT_INPUT_NAME;
+import static com.agtinternational.hobbit.common.SMLConstants.WINDOW_SIZE_INPUT_NAME;
 
 /**
  * @author Roman Katerinenko

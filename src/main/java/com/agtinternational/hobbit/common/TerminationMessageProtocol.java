@@ -1,11 +1,15 @@
 package com.agtinternational.hobbit.common;
 
-import com.agtinternational.hobbit.common.io.NetworkCommunication;
+import com.agtinternational.hobbit.sdk.io.AbstractCommunicationProtocol;
+import com.agtinternational.hobbit.sdk.io.Communication;
+import com.agtinternational.hobbit.sdk.io.NetworkCommunication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
 import java.util.concurrent.CountDownLatch;
+
+import static com.agtinternational.hobbit.sdk.CommonConstants.CHARSET;
 
 /**
  * Incapsulates communication objects completely.
@@ -67,7 +71,7 @@ public abstract class TerminationMessageProtocol extends AbstractCommunicationPr
     protected abstract int getOutputPrefetchCount();
 
     protected final void sendTerminationMessage() throws Exception {
-        logger.debug("Sending termination message to: {} sender: {}", outputCommunication.getName(), this);
+        logger.info("Sending termination message to: {} sender: {}", outputCommunication.getName(), this);
         outputCommunication.send(terminationMessage);
     }
 
@@ -134,7 +138,7 @@ public abstract class TerminationMessageProtocol extends AbstractCommunicationPr
 
         @Override
         public Charset getCharset() {
-            return TaskBasedBenchmarkController.CHARSET;
+            return CHARSET;
         }
 
         @Override

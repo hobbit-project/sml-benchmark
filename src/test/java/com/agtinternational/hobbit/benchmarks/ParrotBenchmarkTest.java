@@ -1,22 +1,20 @@
 package com.agtinternational.hobbit.benchmarks;
 
-import com.agtinternational.hobbit.benchmarks.utils.commandreactions.StartBenchmarkWhenSystemAndBenchmarkReady;
-import com.agtinternational.hobbit.common.BenchmarkTask;
-import com.agtinternational.hobbit.common.JenaKeyValue;
-import com.agtinternational.hobbit.common.KeyValue;
-import com.agtinternational.hobbit.common.TaskBasedBenchmarkController;
+import com.agtinternational.hobbit.sdk.*;
 import com.agtinternational.hobbit.benchmarks.parrot.ParrotSystemComponent;
 import com.agtinternational.hobbit.benchmarks.parrot.ParrotTask;
-import com.agtinternational.hobbit.benchmarks.utils.CommandQueueListener;
-import com.agtinternational.hobbit.benchmarks.utils.ComponentsExecutor;
-import com.agtinternational.hobbit.benchmarks.utils.ContainerSimulatedComponent;
-import com.agtinternational.hobbit.benchmarks.utils.commandreactions.TerminateServicesWhenBenchmarkControllerFinished;
-import com.agtinternational.hobbit.deployment.RabbitMqDockerizer;
+import com.agtinternational.hobbit.common.*;
+import com.agtinternational.hobbit.sdk.ComponentsExecutor;
+import com.agtinternational.hobbit.sdk.docker.*;
+import com.agtinternational.hobbit.sdk.utils.CommandQueueListener;
+import com.agtinternational.hobbit.sdk.utils.ContainerSimulatedComponent;
+import com.agtinternational.hobbit.sdk.utils.commandreactions.StartBenchmarkWhenSystemAndBenchmarkReady;
+import com.agtinternational.hobbit.sdk.utils.commandreactions.TerminateServicesWhenBenchmarkControllerFinished;
 import org.hobbit.core.Commands;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.agtinternational.hobbit.deployment.CommonConstants.RABBIT_MQ_CONTAINER_NAME;
+import static com.agtinternational.hobbit.sdk.CommonConstants.RABBIT_MQ_CONTAINER_NAME;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

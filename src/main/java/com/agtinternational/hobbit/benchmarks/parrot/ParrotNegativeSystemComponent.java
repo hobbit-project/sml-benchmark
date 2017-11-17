@@ -1,15 +1,16 @@
 package com.agtinternational.hobbit.benchmarks.parrot;
 
-import com.agtinternational.hobbit.common.AbstractCommunicationProtocol;
-import com.agtinternational.hobbit.common.SystemComponent;
-import com.agtinternational.hobbit.common.io.RabbitMqCommunication;
+
+import com.agtinternational.hobbit.sdk.BasicSystemComponent;
+import com.agtinternational.hobbit.sdk.io.AbstractCommunicationProtocol;
+import com.agtinternational.hobbit.sdk.io.RabbitMqCommunication;
 
 /**
  * System component that fails intentionally
  *
  * @author Roman Katerinenko
  */
-public class ParrotNegativeSystemComponent extends SystemComponent {
+public class ParrotNegativeSystemComponent extends BasicSystemComponent {
     public ParrotNegativeSystemComponent() {
         super(newSystemCommunicationProtocol());
     }

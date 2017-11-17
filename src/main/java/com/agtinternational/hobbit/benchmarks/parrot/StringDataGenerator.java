@@ -1,6 +1,6 @@
 package com.agtinternational.hobbit.benchmarks.parrot;
 
-import com.agtinternational.hobbit.common.Communication;
+import com.agtinternational.hobbit.sdk.io.Communication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

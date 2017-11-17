@@ -1,7 +1,7 @@
 package com.agtinternational.hobbit.benchmarks;
 
-import com.agtinternational.hobbit.common.JenaKeyValue;
 import com.agtinternational.hobbit.benchmarks.parrot.ParrotTask;
+import com.agtinternational.hobbit.sdk.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;

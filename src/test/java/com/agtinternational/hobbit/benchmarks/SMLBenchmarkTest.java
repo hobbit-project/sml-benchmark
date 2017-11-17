@@ -1,18 +1,20 @@
 package com.agtinternational.hobbit.benchmarks;
 
 import com.agtinternational.hobbit.common.*;
-import com.agtinternational.hobbit.benchmarks.sml.SMLConstants;
+import com.agtinternational.hobbit.common.SMLConstants;
 import com.agtinternational.hobbit.benchmarks.sml.SMLCsvSystem;
 import com.agtinternational.hobbit.benchmarks.sml.SMLCsvSystemNegative;
-import com.agtinternational.hobbit.benchmarks.utils.CommandQueueListener;
-import com.agtinternational.hobbit.benchmarks.utils.ComponentsExecutor;
-import com.agtinternational.hobbit.benchmarks.utils.commandreactions.StartBenchmarkWhenSystemAndBenchmarkReady;
-import com.agtinternational.hobbit.benchmarks.utils.commandreactions.TerminateServicesWhenBenchmarkControllerFinished;
 import com.agtinternational.hobbit.benchmarks.sml.SMLTask;
-import com.agtinternational.hobbit.benchmarks.utils.ContainerSimulatedComponent;
-import com.agtinternational.hobbit.deployment.RabbitMqDockerizer;
+import com.agtinternational.hobbit.sdk.BasicSystemComponent;
+import com.agtinternational.hobbit.sdk.ComponentsExecutor;
+import com.agtinternational.hobbit.sdk.docker.RabbitMqDockerizer;
+import com.agtinternational.hobbit.sdk.utils.CommandQueueListener;
+import com.agtinternational.hobbit.sdk.utils.ContainerSimulatedComponent;
+import com.agtinternational.hobbit.sdk.utils.commandreactions.StartBenchmarkWhenSystemAndBenchmarkReady;
+import com.agtinternational.hobbit.sdk.utils.commandreactions.TerminateServicesWhenBenchmarkControllerFinished;
 import com.spotify.docker.client.exceptions.DockerCertificateException;
 import com.spotify.docker.client.exceptions.DockerException;
+import com.agtinternational.hobbit.sdk.*;
 import org.hobbit.core.Commands;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,9 +25,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.TimeoutException;
 
-import static com.agtinternational.hobbit.benchmarks.sml.SMLConstants.*;
-import static com.agtinternational.hobbit.deployment.CommonConstants.*;
-
+import static com.agtinternational.hobbit.common.SMLConstants.*;
+import static com.agtinternational.hobbit.sdk.CommonConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -104,7 +105,7 @@ public class SMLBenchmarkTest extends EnvironmentVariables {
         rabbitMqDockerizer.stopAndRemoveContainer();
     }
 
-    private SystemComponent newSystem() {
+    private BasicSystemComponent newSystem() {
         KeyValue systemParameters = createSystemParameters();
         if (systemType == SystemType.POSITIVE){
             return new SMLCsvSystem(systemParameters);
@@ -122,7 +123,7 @@ public class SMLBenchmarkTest extends EnvironmentVariables {
         double throughput = keyValue.getDoubleValueFor(SMLConstants.THROUGHPUT_BYTES_PER_SEC_OUTPUT_NAME);
         assertTrue(Double.compare(throughput, .0) >= 0);
         String actualTermination = keyValue.getStringValueFor(SMLConstants.TERMINATION_TYPE_OUTPUT_NAME);
-        Assert.assertEquals(SMLConstants.TERMINATION_TYPE_NORMAL, actualTermination);
+        Assert.assertEquals(TERMINATION_TYPE_NORMAL, actualTermination);
     }
 
 

@@ -1,8 +1,9 @@
 package com.agtinternational.hobbit.benchmarks.parrot;
 
+
 import com.agtinternational.hobbit.common.BenchmarkTask;
 import com.agtinternational.hobbit.common.TaskBasedBenchmarkController;
-import com.agtinternational.hobbit.common.JenaKeyValue;
+import com.agtinternational.hobbit.sdk.JenaKeyValue;
 import org.hobbit.core.components.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

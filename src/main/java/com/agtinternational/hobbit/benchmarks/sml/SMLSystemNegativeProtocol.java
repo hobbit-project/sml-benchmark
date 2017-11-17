@@ -1,8 +1,9 @@
 package com.agtinternational.hobbit.benchmarks.sml;
 
 import com.agt.ferromatikdata.anomalydetector.WithinMachineAnomaly;
-import com.agtinternational.hobbit.common.KeyValue;
-import com.agtinternational.hobbit.common.io.NetworkCommunication;
+import com.agtinternational.hobbit.sdk.io.NetworkCommunication;
+import com.agtinternational.hobbit.sdk.KeyValue;
+
 
 /**
  * @author Roman Katerinenko

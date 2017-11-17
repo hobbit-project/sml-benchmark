@@ -1,13 +1,14 @@
 package com.agtinternational.hobbit.benchmarks.sml;
 
-import com.agtinternational.hobbit.common.KeyValue;
-import com.agtinternational.hobbit.common.SystemComponent;
-import com.agtinternational.hobbit.common.io.RabbitMqCommunication;
+
+import com.agtinternational.hobbit.sdk.BasicSystemComponent;
+import com.agtinternational.hobbit.sdk.KeyValue;
+import com.agtinternational.hobbit.sdk.io.RabbitMqCommunication;
 
 /**
  * @author Roman Katerinenko
  */
-public class SMLCsvSystemNegative extends SystemComponent {
+public class SMLCsvSystemNegative extends BasicSystemComponent {
     public SMLCsvSystemNegative(KeyValue inputParameters) {
         super(new SMLSystemNegativeProtocol(new RabbitMqCommunication.Builder(), inputParameters));
     }

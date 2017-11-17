@@ -1,11 +1,11 @@
 package com.agtinternational.hobbit.common.correctnesscheck;
 
-import com.agtinternational.hobbit.common.Utils;
 import com.agtinternational.hobbit.common.TaskBasedBenchmarkController;
 import com.agtinternational.hobbit.common.TerminationMessageProtocol;
-import com.agtinternational.hobbit.common.io.CommandSender;
-import com.agtinternational.hobbit.common.io.NetworkCommunication;
-import com.agtinternational.hobbit.common.Communication;
+import com.agtinternational.hobbit.common.Utils;
+import com.agtinternational.hobbit.sdk.io.Communication;
+import com.agtinternational.hobbit.sdk.io.NetworkCommunication;
+import com.agtinternational.hobbit.sdk.utils.CommandSender;
 import org.hobbit.core.Commands;
 import org.hobbit.core.Constants;
 import org.slf4j.Logger;
@@ -24,24 +24,24 @@ public abstract class CorrectnessBenchmarkProtocol extends TerminationMessagePro
     }
 
     protected void executeProtocol() throws Exception {
-        logger.debug("Starting system...");
-        startSystem();
+        logger.debug("Starting execution system...");
+        startExecutionOnSystem();
         logger.debug("Initializing...");
         initProtocol();
         logger.debug("Starting data generator...");
         startDataGeneration();
-        logger.debug("Sending termination data...");
+        logger.debug("Sending termination message...");
         sendTerminationMessage();
         logger.debug("Waiting for termination message...");
         waitForTerminationMessage();
-        logger.debug("Got termination message.Finished.");
+        logger.debug("Got termination message. Finished.");
     }
 
     protected abstract void startDataGeneration() throws Exception;
 
     protected abstract void initProtocol() throws Exception;
 
-    private void startSystem() throws Exception {
+    private void startExecutionOnSystem() throws Exception {
         new CommandSender(Commands.TASK_GENERATION_FINISHED).send();
     }
 

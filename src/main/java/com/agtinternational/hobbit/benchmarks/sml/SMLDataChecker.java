@@ -1,8 +1,8 @@
 package com.agtinternational.hobbit.benchmarks.sml;
 
 import com.agtinternational.hobbit.common.correctnesscheck.ComparablesMatcher;
-import com.agtinternational.hobbit.common.correctnesscheck.DataCheckerImpl;
-import com.agtinternational.hobbit.common.KeyValue;
+import com.agtinternational.hobbit.common.correctnesscheck.*;
+import com.agtinternational.hobbit.sdk.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class SMLDataChecker extends DataCheckerImpl<InstantAndText> {
     }
 
     public void addDataPoint(InstantAndText dataPoint) {
-        logger.debug("Got benchmark data point: {}", dataPoint.getText());
+        logger.trace("Got benchmark data point: {}", dataPoint.getText());
         anomalyDetector.addNewDataPoint(dataPoint);
     }
 

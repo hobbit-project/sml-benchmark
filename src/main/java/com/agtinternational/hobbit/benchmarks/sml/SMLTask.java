@@ -6,12 +6,15 @@ import com.agt.ferromatikdata.dataframe.DataGenerator;
 import com.agt.ferromatikdata.formatting.CsvFormatter;
 import com.agt.ferromatikdata.formatting.OutputFormatter;
 import com.agt.ferromatikdata.formatting.RdfFormatter;
-import com.agtinternational.hobbit.common.BenchmarkTask;
-import com.agtinternational.hobbit.common.Communication;
-import com.agtinternational.hobbit.common.JenaKeyValue;
-import com.agtinternational.hobbit.common.KeyValue;
+
+import com.agtinternational.hobbit.common.SMLConstants;
 import com.agtinternational.hobbit.common.correctnesscheck.CorrectnessBenchmarkProtocol;
-import com.agtinternational.hobbit.common.io.RabbitMqCommunication;
+
+import com.agtinternational.hobbit.common.BenchmarkTask;
+import com.agtinternational.hobbit.sdk.io.Communication;
+import com.agtinternational.hobbit.sdk.io.RabbitMqCommunication;
+import com.agtinternational.hobbit.sdk.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

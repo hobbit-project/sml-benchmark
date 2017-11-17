@@ -5,14 +5,14 @@ import com.agt.ferromatikdata.core.GeneratorTask;
 import com.agt.ferromatikdata.core.GrowingGenerationTask;
 import com.agt.ferromatikdata.core.MachineModel;
 import com.agt.ferromatikdata.core.Machines;
-import com.agtinternational.hobbit.common.KeyValue;
+import com.agtinternational.hobbit.sdk.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.agtinternational.hobbit.benchmarks.sml.SMLConstants.BENCHMARK_MODE_DYNAMIC;
-import static com.agtinternational.hobbit.benchmarks.sml.SMLConstants.BENCHMARK_MODE_INPUT_NAME;
-import static com.agtinternational.hobbit.benchmarks.sml.SMLConstants.DATA_POINT_COUNT_INPUT_NAME;
+import static com.agtinternational.hobbit.common.SMLConstants.BENCHMARK_MODE_DYNAMIC;
+import static com.agtinternational.hobbit.common.SMLConstants.BENCHMARK_MODE_INPUT_NAME;
+import static com.agtinternational.hobbit.common.SMLConstants.DATA_POINT_COUNT_INPUT_NAME;
 
 /**
  * @author Roman Katerinenko

@@ -3,9 +3,9 @@ package com.agtinternational.hobbit.benchmarks.sml;
 import com.agt.ferromatikdata.anomalydetector.AnomalyDetector;
 import com.agt.ferromatikdata.anomalydetector.WithinMachineAnomaly;
 import com.agt.ferromatikdata.formatting.RdfAnomalyFormatter;
-import com.agtinternational.hobbit.common.KeyValue;
 import com.agtinternational.hobbit.common.correctnesscheck.CorrectnessSystemProtocol;
-import com.agtinternational.hobbit.common.io.NetworkCommunication;
+import com.agtinternational.hobbit.sdk.io.NetworkCommunication;
+import com.agtinternational.hobbit.sdk.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Roman Katerinenko
  */
-class DistortedRepeatProtocol extends CorrectnessSystemProtocol {
-    private static final Logger logger = LoggerFactory.getLogger(DistortedRepeatProtocol.class);
+class ParrotSystemProtocol extends CorrectnessSystemProtocol {
+    private static final Logger logger = LoggerFactory.getLogger(ParrotSystemProtocol.class);
 
-    DistortedRepeatProtocol(NetworkCommunication.Builder communicationBuilder) {
+    ParrotSystemProtocol(NetworkCommunication.Builder communicationBuilder) {
         super(communicationBuilder);
     }
 
@@ -23,11 +23,8 @@ class DistortedRepeatProtocol extends CorrectnessSystemProtocol {
     @Override
     protected void handleDelivery(byte[] bytes) {
         try {
-            String receiveMessage = new String(bytes, getCharset());
-            logger.debug("Received message: {}", receiveMessage);
-            String distortedMessage = receiveMessage + "_distorted";
-            logger.debug("Sending distorted message: {}", distortedMessage);
-            sendBytes(distortedMessage.getBytes(getCharset()));
+            logger.debug("Repeating message: {}", new String(bytes, getCharset()));
+            sendBytes(bytes);
         } catch (Exception e) {
             logger.error("Exception", e);
         }
