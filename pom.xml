@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.agt</groupId>
+    <groupId>com.agtinternational.hobbit</groupId>
     <artifactId>sml-benchmark</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
@@ -44,7 +44,6 @@
             <groupId>com.agtinternational.hobbit</groupId>
             <artifactId>localLibs-wm-datagen</artifactId>
             <version>1.0</version>
-            <scope>compile</scope>
             <!--<scope>system</scope>-->
             <!--<systemPath>${project.basedir}/src/main/resources/libs/original-wm-data-gen-1.0-SNAPSHOT.jar</systemPath>-->
         </dependency>
@@ -144,28 +143,29 @@
                     </execution>
                 </executions>
             </plugin>
-			<!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-install-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>hack-binary</id>-->
-                        <!--<phase>validate</phase>-->
-                        <!--<configuration>-->
-                            <!--<file>${project.basedir}/src/main/resources/libs/original-wm-data-gen-1.0-SNAPSHOT.jar</file>-->
-                            <!--<repositoryLayout>default</repositoryLayout>-->
-                            <!--<groupId>com.agtinternational.hobbit</groupId>-->
-                            <!--<artifactId>localLibs-wm-datagen</artifactId>-->
-                            <!--<version>1.0</version>-->
-                            <!--<packaging>jar</packaging>-->
-                            <!--<generatePom>true</generatePom>-->
-                        <!--</configuration>-->
-                        <!--<goals>-->
-                            <!--<goal>install-file</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
+
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>hack-binary</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <file>${project.basedir}/src/main/resources/libs/original-wm-data-gen-1.0-SNAPSHOT.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>com.agtinternational.hobbit</groupId>
+                            <artifactId>localLibs-wm-datagen</artifactId>
+                            <version>1.0</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 			<!--<plugin>-->
 				<!--<groupId>org.apache.maven.plugins</groupId>-->
