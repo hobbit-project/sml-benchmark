@@ -1,13 +1,11 @@
 package com.agtinternational.hobbit.sml;
 
-import com.agtinternational.hobbit.sml.benchmarks.EnvironmentVariables;
-import com.agtinternational.hobbit.sml.common.SMLConstants;
-import com.agtinternational.hobbit.sml.deployment.sml.AnalyticsBenchmarkDockerBuilder;
-import com.agtinternational.hobbit.sml.deployment.sml.SMLCsvNegativeSystemBuilder;
-import com.agtinternational.hobbit.sml.deployment.sml.SMLCsvSystemDockerBuilder;
+import com.agtinternational.hobbit.sml.sml.docker.AnalyticsBenchmarkDockerBuilder;
+import com.agtinternational.hobbit.sml.sml.system.docker.SMLCsvNegativeSystemBuilder;
+import com.agtinternational.hobbit.sml.sml.system.docker.SMLCsvSystemDockerBuilder;
 import com.agtinternational.hobbit.sdk.ComponentsExecutor;
 import com.agtinternational.hobbit.sdk.docker.*;
-import com.agtinternational.hobbit.sml.deployment.sml.SMLBenchmarkDockerBuilder;
+import com.agtinternational.hobbit.sml.sml.docker.SMLBenchmarkDockerBuilder;
 import com.agtinternational.hobbit.sdk.utils.CommandQueueListener;
 import com.agtinternational.hobbit.sdk.*;
 import com.agtinternational.hobbit.sdk.utils.commandreactions.StartBenchmarkWhenSystemAndBenchmarkReady;
@@ -72,16 +70,15 @@ public class DockerizedSMLBenchmarkTest extends EnvironmentVariables {
     @Test
 //    @Ignore
     public void checkBenchmarkResult() throws Exception {
-        // todo add check that rabbit docker image exists and stop its container before test
-        RabbitMqDockerizer rabbitMqDockerizer = RabbitMqDockerizer.builder()
-//                .containerName(RABBIT_MQ_CONTAINER_NAME)
-//                .host(RABBIT_HOST)
-//                .networks(HOBBIT_NETWORK_NAME, HOBBIT_CORE_NETWORK_NAME)
-                .useCachedContainer()
-                .build();
+
+        AbstractDockerizer rabbitMqDockerizer = RabbitMqDockerizer.builder().build();
         rabbitMqDockerizer.run();
-        //rabbitMqDockerizer.waitUntilRunning();
-        setupCommunicationEnvironmentVariables(RABBIT_HOST, SESSION_ID);
+
+        setupCommunicationEnvironmentVariables(rabbitMqDockerizer.getHostName(), "session1");
+        setupBenchmarkEnvironmentVariables("experiment_1");
+        setupGeneratorEnvironmentVariables(1,1);
+        setupSystemEnvironmentVariables(FAKE_SYSTEM_URI);
+
         ComponentsExecutor componentsExecutor = new ComponentsExecutor();
         CommandQueueListener commandQueue = new CommandQueueListener();
         CountDownLatch benchmarkFinishedBarrier = new CountDownLatch(1);
@@ -95,9 +92,11 @@ public class DockerizedSMLBenchmarkTest extends EnvironmentVariables {
                 });
         componentsExecutor.submit(commandQueue);
         commandQueue.waitForInitialisation();
-        Dockerizer benchmarkDockerizer = newBenchmarkDockerizer();
+
+        AbstractDockerizer benchmarkDockerizer = newBenchmarkDockerizer();
         componentsExecutor.submit(benchmarkDockerizer);
-        Dockerizer systemDockerizer = newSystemDockerizer();
+
+        AbstractDockerizer systemDockerizer = newSystemDockerizer();
         componentsExecutor.submit(systemDockerizer);
         benchmarkFinishedBarrier.await();
         try {
@@ -106,6 +105,7 @@ public class DockerizedSMLBenchmarkTest extends EnvironmentVariables {
         } catch (ContainerNotFoundException e) {
             // ignore - container already finished
         }
+
         commandQueue.terminate();
         componentsExecutor.shutdown();
         rabbitMqDockerizer.stop();
@@ -113,39 +113,42 @@ public class DockerizedSMLBenchmarkTest extends EnvironmentVariables {
         Assert.assertFalse(componentsExecutor.anyExceptions());
     }
 
-    private Dockerizer newBenchmarkDockerizer() {
+    private AbstractDockerizer newBenchmarkDockerizer() throws Exception {
         if (benchmarkType == BenchmarkType.SML) {
             return new SMLBenchmarkDockerBuilder()
                     .benchmarkOutputFormat(benchmarkOutputFormat)
-                    .hobbitSessionId(SESSION_ID)
-                    .systemUri(FAKE_SYSTEM_URI)
-                    .useCachedContainer()
+                    //.hobbitSessionId(SESSION_ID)
+                    //.systemUri(FAKE_SYSTEM_URI)
+                    //.skipLogsReading(true)
+                    //.useCachedContainer()
                     .build();
         } else if (benchmarkType == BenchmarkType.ANALYTICS) {
             return new AnalyticsBenchmarkDockerBuilder()
                     .benchmarkOutputFormat(benchmarkOutputFormat)
-                    .hobbitSessionId(SESSION_ID)
-                    .systemUri(FAKE_SYSTEM_URI)
+                    //.hobbitSessionId(SESSION_ID)
+                    //.systemUri(FAKE_SYSTEM_URI)
                     .build();
         } else {
             return null;
         }
     }
 
-    private Dockerizer newSystemDockerizer() {
+    private AbstractDockerizer newSystemDockerizer() throws Exception {
         switch (systemType) {
             case POSITIVE:
                 return new SMLCsvSystemDockerBuilder()
                         .parameters(newSystemParams())
-                        .hobbitSessionId(SESSION_ID)
-                        .systemUri(FAKE_SYSTEM_URI)
+                        //.hobbitSessionId(SESSION_ID)
+                        //.systemUri(FAKE_SYSTEM_URI)
+                        //.skipLogsReading()
                         .build();
             case NEGATIVE:
             default:
                 return new SMLCsvNegativeSystemBuilder()
                         .parameters(newSystemParams())
-                        .hobbitSessionId(SESSION_ID)
-                        .systemUri(FAKE_SYSTEM_URI)
+                        //.hobbitSessionId(SESSION_ID)
+                        //.systemUri(FAKE_SYSTEM_URI)
+                        //.skipLogsReading()
                         .build();
         }
     }

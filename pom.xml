@@ -37,7 +37,8 @@
         <dependency>
             <groupId>com.agtinternational.hobbit</groupId>
             <artifactId>hobbit-java-sdk</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

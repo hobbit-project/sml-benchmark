@@ -1,10 +1,8 @@
 package com.agtinternational.hobbit.sml;
 
-import com.agtinternational.hobbit.sml.common.SMLConstants;
-import com.agtinternational.hobbit.sml.deployment.sml.SMLCsvSystemDockerBuilder;
-import com.agtinternational.hobbit.sdk.CommonConstants;
+import com.agtinternational.hobbit.sml.sml.system.docker.SMLCsvSystemDockerBuilder;
 import com.agtinternational.hobbit.sdk.docker.*;
-import com.agtinternational.hobbit.sml.deployment.sml.SMLBenchmarkDockerBuilder;
+import com.agtinternational.hobbit.sml.sml.docker.SMLBenchmarkDockerBuilder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNull;
@@ -16,40 +14,42 @@ public class SMLDockerizerTest {
     @Test
     public void checkSystemStartStop(){
 
-        Dockerizer dockerizer = new SMLCsvSystemDockerBuilder()
-                .hobbitSessionId(CommonConstants.HOBBIT_SESSION_ID)
-                .systemUri(CommonConstants.SYSTEM_URI)
-                //.useCachedContainer()
-                .build();
         try {
+            AbstractDockerizer dockerizer = new SMLCsvSystemDockerBuilder()
+                    //.hobbitSessionId(CommonConstants.HOBBIT_SESSION_ID)
+                    //.systemUri(CommonConstants.SYSTEM_URI)
+                    //.useCachedContainer()
+                    .build();
             dockerizer.run();
             dockerizer.stop();
+            assertNull(dockerizer.anyExceptions());
         }
         catch (Exception e){
             fail(e.getMessage());
         }
 
-        assertNull(dockerizer.anyExceptions());
+
     }
 
     @Test
     public void checkBenchmarkStartStop(){
 
-        Dockerizer dockerizer = new SMLBenchmarkDockerBuilder()
-                .benchmarkOutputFormat(SMLConstants.FORMAT_RDF)
-                .hobbitSessionId(CommonConstants.HOBBIT_SESSION_ID)
-                .systemUri(CommonConstants.SYSTEM_URI)
-                .useCachedContainer()
-                .skipLogsReading()
-                .build();
         try {
+            AbstractDockerizer dockerizer = new SMLBenchmarkDockerBuilder()
+                    .benchmarkOutputFormat(SMLConstants.FORMAT_RDF)
+                    //.hobbitSessionId(CommonConstants.HOBBIT_SESSION_ID)
+                    //.systemUri(CommonConstants.SYSTEM_URI)
+                    .useCachedContainer()
+                    .skipLogsReading()
+                    .build();
             dockerizer.run();
             dockerizer.stop();
+            assertNull(dockerizer.anyExceptions());
         }
         catch (Exception e){
             fail(e.getMessage());
         }
 
-        assertNull(dockerizer.anyExceptions());
+
     }
 }
