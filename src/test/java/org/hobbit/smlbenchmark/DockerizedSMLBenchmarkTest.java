@@ -162,14 +162,14 @@ public class DockerizedSMLBenchmarkTest extends EnvironmentVariablesWrapper {
 
     private BenchmarkDockerBuilder newBenchmarkDockerizer(Boolean useCachedImages) throws Exception {
         if (benchmarkType == BenchmarkType.SML) {
-            return new BenchmarkDockerBuilder(new SMLBenchmarkDockerBuilder(BENCHMARK_IMAGE_NAME).useCachedImage(useCachedImages)).parameters(createBenchmarkParameters());
+            return new BenchmarkDockerBuilder(new SMLBenchmarkDockerBuilder(BENCHMARK_IMAGE_NAME).useCachedImage(useCachedImages));
                     //.hobbitSessionId(SESSION_ID)
                     //.systemUri(FAKE_SYSTEM_URI)
                     //.skipLogsReading(true)
                     //.useCachedContainer()
                     //.build();
         } else if (benchmarkType == BenchmarkType.ANALYTICS) {
-            return new BenchmarkDockerBuilder(new AnalyticsBenchmarkDockerBuilder().useCachedImage(useCachedImages)).parameters(createBenchmarkParameters());
+            return new BenchmarkDockerBuilder(new AnalyticsBenchmarkDockerBuilder().useCachedImage(useCachedImages));
                     //.hobbitSessionId(SESSION_ID)
                     //.systemUri(FAKE_SYSTEM_URI)
                     //.build();
@@ -181,14 +181,14 @@ public class DockerizedSMLBenchmarkTest extends EnvironmentVariablesWrapper {
     private SystemAdapterDockerBuilder newSystemDockersBuilder(Boolean useCachedImages) throws Exception {
         switch (systemType) {
             case POSITIVE:
-                return new SystemAdapterDockerBuilder(new SMLCsvSystemDockerBuilder(SYSTEM_IMAGE_NAME).useCachedImage(useCachedImages)).parameters(newSystemParams());
+                return new SystemAdapterDockerBuilder(new SMLCsvSystemDockerBuilder(SYSTEM_IMAGE_NAME).useCachedImage(useCachedImages));
                         //.hobbitSessionId(SESSION_ID)
                         //.systemUri(FAKE_SYSTEM_URI)
                         //.skipLogsReading()
                         //.build();
             case NEGATIVE:
             default:
-                return new SystemAdapterDockerBuilder(new SMLCsvNegativeSystemBuilder().useCachedImage(useCachedImages)).parameters(newSystemParams());
+                return new SystemAdapterDockerBuilder(new SMLCsvNegativeSystemBuilder().useCachedImage(useCachedImages));
                         //.hobbitSessionId(SESSION_ID)
                         //.systemUri(FAKE_SYSTEM_URI)
                         //.skipLogsReading()
@@ -204,15 +204,7 @@ public class DockerizedSMLBenchmarkTest extends EnvironmentVariablesWrapper {
                 && SMLConstants.EXPECTED_ANOMALIES_COUNT == matchedDataPoints) == testShouldPass;
     }
 
-    private static JenaKeyValue newSystemParams() {
-        JenaKeyValue kv = new JenaKeyValue();
-        kv.setValue(SMLConstants.PROBABILITY_THRESHOLD_INPUT_NAME, SMLConstants.PROBABILITY_THRESHOLD_DEFAULT);
-        kv.setValue(SMLConstants.WINDOW_SIZE_INPUT_NAME, SMLConstants.WINDOW_SIZE_DEFAULT);
-        kv.setValue(SMLConstants.TRANSITIONS_COUNT_INPUT_NAME, SMLConstants.TRANSITIONS_COUNT_DEFAULT);
-        kv.setValue(SMLConstants.MAX_CLUSTER_ITERATIONS_INPUT_NAME, SMLConstants.MAX_CLUSTER_ITERATIONS_DEFAULT);
-        kv.setValue(SMLConstants.MACHINE_COUNT_INPUT_NAME, SMLConstants.MACHINE_COUNT_DEFAULT);
-        return kv;//.encodeToString();
-    }
+
 
 //    public KeyValue createBenchmarkParameters() {
 //
@@ -234,19 +226,5 @@ public class DockerizedSMLBenchmarkTest extends EnvironmentVariablesWrapper {
 //        return kv;
 //    }
 
-        private JenaKeyValue createBenchmarkParameters() {
-            JenaKeyValue kv = new JenaKeyValue();
-            kv.setValue(SMLConstants.DATA_POINT_COUNT_INPUT_NAME, SMLConstants.EXPECTED_DATA_POINTS_COUNT);
-            kv.setValue(SMLConstants.PROBABILITY_THRESHOLD_INPUT_NAME, SMLConstants.PROBABILITY_THRESHOLD_DEFAULT);
-            kv.setValue(SMLConstants.WINDOW_SIZE_INPUT_NAME, SMLConstants.WINDOW_SIZE_DEFAULT);
-            kv.setValue(SMLConstants.TRANSITIONS_COUNT_INPUT_NAME, SMLConstants.TRANSITIONS_COUNT_DEFAULT);
-            kv.setValue(SMLConstants.MAX_CLUSTER_ITERATIONS_INPUT_NAME, SMLConstants.MAX_CLUSTER_ITERATIONS_DEFAULT);
-            kv.setValue(SMLConstants.INTERVAL_NANOS_INPUT_NAME, SMLConstants.INTERVAL_NANOS_DEFAULT);
-            kv.setValue(SMLConstants.SEED_INPUT_NAME, SMLConstants.SEED_DEFAULT);
-            kv.setValue(SMLConstants.FORMAT_INPUT_NAME, benchmarkOutputFormat);
-            kv.setValue(SMLConstants.MACHINE_COUNT_INPUT_NAME, 1);
-            kv.setValue(SMLConstants.TIMEOUT_MINUTES_INPUT_NAME, 1);
-            kv.setValue(SMLConstants.BENCHMARK_MODE_INPUT_NAME, SMLConstants.BENCHMARK_MODE_STATIC);
-            return kv;//.encodeToString();
-    }
+
 }

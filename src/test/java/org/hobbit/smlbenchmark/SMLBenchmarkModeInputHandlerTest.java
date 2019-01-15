@@ -35,7 +35,7 @@ public class SMLBenchmarkModeInputHandlerTest {
         dataPointsBeforeNewMachineExpected = 11;
         String modeExpected = String.format(
                 "%s:%d:%d",
-                SMLConstants.BENCHMARK_MODE_DYNAMIC,
+                "dynamic",
                 initialMachineCountExpected,
                 dataPointsBeforeNewMachineExpected);
         keyValue.setValue(SMLConstants.DATA_POINT_COUNT_INPUT_NAME, dataPointCountExpected);

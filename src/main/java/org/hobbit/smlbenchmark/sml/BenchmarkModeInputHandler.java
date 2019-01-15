@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public class BenchmarkModeInputHandler {
     //private static final Pattern pattern = Pattern.compile(SMLConstants.BENCHMARK_MODE_DYNAMIC + ":([0-9]+):([0-9]+)");
-    private static final Pattern pattern = Pattern.compile(SMLConstants.BENCHMARK_MODE_DYNAMIC + ":([0-9]+):([0-9]+)");
+    private static final Pattern pattern = Pattern.compile("dynamic" + ":([0-9]+):([0-9]+)");
     private final KeyValue inputParams;
     private final Machines machines;
 
@@ -28,7 +28,7 @@ public class BenchmarkModeInputHandler {
     public GeneratorTask getGeneratorTask() throws Exception {
         int dataPointCount = inputParams.getIntValueFor(SMLConstants.DATA_POINT_COUNT_INPUT_NAME);
         String mode = inputParams.getStringValueFor(SMLConstants.BENCHMARK_MODE_INPUT_NAME);
-        if (mode != null && mode.startsWith(SMLConstants.BENCHMARK_MODE_DYNAMIC)) {
+        if (mode != null && mode.startsWith("dynamic")) {
             Matcher matcher = pattern.matcher(mode);
             if (!matcher.matches()) {
                 throw new IllegalStateException("Wrong input format: " + mode);

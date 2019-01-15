@@ -87,7 +87,7 @@ public class SMLBenchmarkTest extends EnvironmentVariablesWrapper {
         componentsExecutor.submit(commandQueueListener);
         commandQueueListener.waitForInitialisation();
 
-        KeyValue benchmarkParams = createBenchmarkParameters();
+        KeyValue benchmarkParams = createBenchmarkParameters(benchmarkOutputFormat);
 
         int timeout = benchmarkParams.getIntValueFor(SMLConstants.TIMEOUT_MINUTES_INPUT_NAME);
         BenchmarkTask task = new SMLTask(benchmarkParams);
@@ -126,33 +126,34 @@ public class SMLBenchmarkTest extends EnvironmentVariablesWrapper {
     }
 
 
-    public KeyValue createBenchmarkParameters() {
+    public static JenaKeyValue createBenchmarkParameters(int benchmarkOutputFormat) {
 
-        KeyValue kv = new KeyValue();
-        kv.setValue(SMLConstants.BENCHMARK_MODE_INPUT_NAME, SMLConstants.BENCHMARK_MODE_STATIC);
+
+        JenaKeyValue kv = new JenaKeyValue();
+        kv.setValue(SMLConstants.BENCHMARK_MODE_INPUT_NAME, "static");
         //kv.setValue(SMLConstants.BENCHMARK_MODE_INPUT_NAME, BENCHMARK_MODE_DYNAMIC+":10:1");
-        kv.setValue(SMLConstants.TIMEOUT_MINUTES_INPUT_NAME, SMLConstants.NO_TIMEOUT);
+        kv.setValue(SMLConstants.TIMEOUT_MINUTES_INPUT_NAME, -1);
         kv.setValue(SMLConstants.DATA_POINT_COUNT_INPUT_NAME, SMLConstants.EXPECTED_DATA_POINTS_COUNT);
-        kv.setValue(SMLConstants.MACHINE_COUNT_INPUT_NAME, SMLConstants.MACHINE_COUNT_DEFAULT);
-        kv.setValue(SMLConstants.PROBABILITY_THRESHOLD_INPUT_NAME, SMLConstants.PROBABILITY_THRESHOLD_DEFAULT);
-        kv.setValue(SMLConstants.WINDOW_SIZE_INPUT_NAME, SMLConstants.WINDOW_SIZE_DEFAULT);
-        kv.setValue(SMLConstants.TRANSITIONS_COUNT_INPUT_NAME, SMLConstants.TRANSITIONS_COUNT_DEFAULT);
-        kv.setValue(SMLConstants.MAX_CLUSTER_ITERATIONS_INPUT_NAME, SMLConstants.MAX_CLUSTER_ITERATIONS_DEFAULT);
-        kv.setValue(SMLConstants.INTERVAL_NANOS_INPUT_NAME, SMLConstants.INTERVAL_NANOS_DEFAULT);
-        kv.setValue(SMLConstants.SEED_INPUT_NAME, SMLConstants.SEED_DEFAULT);
+        kv.setValue(SMLConstants.MACHINE_COUNT_INPUT_NAME, 1);
+        kv.setValue(SMLConstants.PROBABILITY_THRESHOLD_INPUT_NAME, 0.005);
+        kv.setValue(SMLConstants.WINDOW_SIZE_INPUT_NAME, 50);
+        kv.setValue(SMLConstants.TRANSITIONS_COUNT_INPUT_NAME, 5);
+        kv.setValue(SMLConstants.MAX_CLUSTER_ITERATIONS_INPUT_NAME, 50);
+        kv.setValue(SMLConstants.INTERVAL_NANOS_INPUT_NAME, 10);
+        kv.setValue(SMLConstants.SEED_INPUT_NAME, 123);
         kv.setValue(SMLConstants.FORMAT_INPUT_NAME, benchmarkOutputFormat);
 
 
         return kv;
     }
 
-    private static KeyValue createSystemParameters(){
-        KeyValue kv = new JenaKeyValue();
-        kv.setValue(SMLConstants.MACHINE_COUNT_INPUT_NAME, SMLConstants.MACHINE_COUNT_DEFAULT);
-        kv.setValue(SMLConstants.PROBABILITY_THRESHOLD_INPUT_NAME, SMLConstants.PROBABILITY_THRESHOLD_DEFAULT);
-        kv.setValue(SMLConstants.WINDOW_SIZE_INPUT_NAME, SMLConstants.WINDOW_SIZE_DEFAULT);
-        kv.setValue(SMLConstants.TRANSITIONS_COUNT_INPUT_NAME, SMLConstants.TRANSITIONS_COUNT_DEFAULT);
-        kv.setValue(SMLConstants.MAX_CLUSTER_ITERATIONS_INPUT_NAME, SMLConstants.MAX_CLUSTER_ITERATIONS_DEFAULT);
+    private static JenaKeyValue createSystemParameters(){
+        JenaKeyValue kv = new JenaKeyValue();
+        kv.setValue(SMLConstants.MACHINE_COUNT_INPUT_NAME, 1);
+        kv.setValue(SMLConstants.PROBABILITY_THRESHOLD_INPUT_NAME, 0.005);
+        kv.setValue(SMLConstants.WINDOW_SIZE_INPUT_NAME, 50);
+        kv.setValue(SMLConstants.TRANSITIONS_COUNT_INPUT_NAME, 5);
+        kv.setValue(SMLConstants.MAX_CLUSTER_ITERATIONS_INPUT_NAME, 50);
         return kv;
     }
 }

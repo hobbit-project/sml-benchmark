@@ -38,15 +38,16 @@
             <groupId>org.hobbit</groupId>
             <artifactId>hobbit-java-sdk</artifactId>
             <version>1.1</version>
-            <scope>compile</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/hobbit-java-sdk-1.1.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.agtinternational.hobbit</groupId>
             <artifactId>localLibs-wm-datagen</artifactId>
             <version>1.0</version>
-            <!--<scope>system</scope>-->
-            <!--<systemPath>${project.basedir}/src/main/resources/libs/original-wm-data-gen-1.0-SNAPSHOT.jar</systemPath>-->
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/original-wm-data-gen-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
 
 

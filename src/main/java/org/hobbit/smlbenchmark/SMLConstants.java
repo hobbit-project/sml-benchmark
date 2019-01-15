@@ -24,17 +24,10 @@ public class SMLConstants {
     public static final String THROUGHPUT_BYTES_PER_SEC_OUTPUT_NAME = BENCHMARK_URI+"throughputBytesPerSecond";
     public static final String TERMINATION_TYPE_OUTPUT_NAME = BENCHMARK_URI+"terminationType";
     //
-    public static final String BENCHMARK_MODE_STATIC = "static";
-    public static final String BENCHMARK_MODE_DYNAMIC = "dynamic";
     public static final String TERMINATION_TYPE_NORMAL = "Terminated correctly.";
     public static final String ANOMALY_MATCH_SUCCESS = "Anomalies matched successfully";
-    public static final double PROBABILITY_THRESHOLD_DEFAULT = 0.005;
-    public static final int MACHINE_COUNT_DEFAULT = 1;
-    public static final int WINDOW_SIZE_DEFAULT = 10;
-    public static final int TRANSITIONS_COUNT_DEFAULT = 5;
-    public static final int MAX_CLUSTER_ITERATIONS_DEFAULT = 50;
-    public static final int INTERVAL_NANOS_DEFAULT = 10;
-    public static final int SEED_DEFAULT = 123;
+
+
     public static final int FORMAT_RDF = 0;
     public static final int FORMAT_CSV = 1;
     public static final int NO_TIMEOUT = -1;
